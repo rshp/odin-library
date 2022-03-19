@@ -25,21 +25,49 @@ function appendBookCard(targetHTML, book) {
 	if (book.read)
 		bookCard.querySelector('.card-mark-read').classList.add('book-read');
 	targetHTML.insertBefore(bookCard, targetHTML.lastElementChild);
-	bookCard.querySelector('.card-mark-read').addEventListener('click', (e) => {
+	bookCard.querySelector('.card-mark-read').addEventListener('click', () => {
 		toggleBookRead(bookCard, book);
 	});
-	bookCard.querySelector('.card-delete').addEventListener('click', (e) => {
-		removeBookCard(bookCard, book);
+	bookCard.querySelector('.card-delete').addEventListener('click', () => {
+		removeBookCard(bookCard);
 	});
 }
 
-function removeBookCard(bookCard, book) {
+function removeBookCard(bookCard) {
 	bookCard.remove();
 }
 
 function toggleBookRead(bookCard, book) {
 	book.toggleRead();
 	bookCard.querySelector('.card-mark-read').classList.toggle('book-read');
+}
+
+function removeAllCards(targetHTML) {
+	for (const element of targetHTML.children) {
+		console.log(element);
+		let isBluePrint = Array.from(element.classList).includes(
+			'blueprint-card'
+		);
+		let isAddBookButton = Array.from(element.classList).includes(
+			'add-book-button'
+		);
+		if (!(isBluePrint && isAddBookButton)) element.remove();
+	}
+}
+
+function markAllRead(targetHTML) {
+	for (const element of targetHTML.children) {
+		let isBluePrint = Array.from(element.classList).includes(
+			'blueprint-card'
+		);
+		let isAddBookButton = Array.from(element.classList).includes(
+			'add-book-button'
+		);
+		if (!(isBluePrint || isAddBookButton)) {
+			element.querySelector('.card-mark-read').classList.add('book-read');
+		}
+		//status change on object itself is missing
+	}
 }
 
 addBookToLibrary(new Book('Animal Farm (1945)', 'George Orwell', 112, true));
@@ -71,3 +99,6 @@ addBookToLibrary(
 addBookToLibrary(
 	new Book('The Great Gatsby', 'F. Scott Fitzgerald', 189, false)
 );
+
+// markAllRead(libraryContainer);
+//removeAllCards(libraryContainer);
