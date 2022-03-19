@@ -43,16 +43,19 @@ function toggleBookRead(bookCard, book) {
 }
 
 function removeAllCards(targetHTML) {
+	let removeCollection = [];
 	for (const element of targetHTML.children) {
-		console.log(element);
 		let isBluePrint = Array.from(element.classList).includes(
 			'blueprint-card'
 		);
 		let isAddBookButton = Array.from(element.classList).includes(
 			'add-book-button'
 		);
-		if (!(isBluePrint && isAddBookButton)) element.remove();
+		if (!(isBluePrint || isAddBookButton)) removeCollection.push(element);
 	}
+	removeCollection.forEach((element) => {
+		element.remove();
+	});
 }
 
 function markAllRead(targetHTML) {
@@ -100,5 +103,39 @@ addBookToLibrary(
 	new Book('The Great Gatsby', 'F. Scott Fitzgerald', 189, false)
 );
 
-// markAllRead(libraryContainer);
-//removeAllCards(libraryContainer);
+const markAllReadButton = document.querySelector('#mark-read');
+markAllReadButton.addEventListener('click', () => {
+	markAllRead(libraryContainer);
+});
+
+const removeAllButton = document.querySelector('#clear-all');
+removeAllButton.addEventListener('click', () => {
+	removeAllCards(libraryContainer);
+});
+
+let modalWrapper = document.querySelector('.modal-wrapper');
+let addBookButton = document.querySelectorAll('.add-book-button');
+
+addBookButton.forEach((element) => {
+	element.addEventListener('click', openAddBookWindow);
+});
+
+function openAddBookWindow() {
+	modalWrapper.style.display = 'Block';
+}
+
+window.addEventListener('click', closeAddBookWindow);
+function closeAddBookWindow(e) {
+	if (e.target == modalWrapper) {
+		//If clicked outside of popup, action is canceled
+		modalWrapper.style.display = 'none';
+	}
+	if (e.target == document.querySelector('.modal-add-book-button')) {
+		let bookTitle = modalWrapper.querySelector('#title').value;
+		let bookAuthor = modalWrapper.querySelector('#author').value;
+		let bookPages = modalWrapper.querySelector('#pages').value;
+		let bookRead = modalWrapper.querySelector('#read').checked;
+		addBookToLibrary(new Book(bookTitle, bookAuthor, bookPages, bookRead));
+		modalWrapper.style.display = 'none';
+	}
+}

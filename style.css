@@ -113,7 +113,7 @@ button:hover {
 	transform: scale(0.99);
 }
 
-.add-book-button::after {
+.book-card.add-book-button::after {
 	content: '\002B';
 	position: relative;
 	top: -1rem;
@@ -125,4 +125,49 @@ button:hover {
 
 .book-card .book-read {
 	background-color: greenyellow;
+}
+
+.modal-wrapper {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.add-book-window {
+	background-color: white;
+	margin: 10% auto;
+	padding: 40px;
+	width: max-content;
+	box-shadow: 0 2px 15px 0 black;
+	animation: popup 0.5s;
+}
+
+@keyframes popup {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.add-book-window li {
+	list-style: none;
+	margin: 1rem;
+}
+
+.add-book-window input {
+	height: 1.5rem;
+	border-radius: 0.5rem;
+	border-style: solid;
+	border-color: steelblue;
+	max-width: 70%;
+	font-style: inherit;
+	font-size: inherit;
 }

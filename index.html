@@ -14,7 +14,7 @@
 			<img src="" alt="library icon" />
 		</header>
 		<nav>
-			<button id="add-book">Add Book</button>
+			<button id="add-book" class="add-book-button">Add Book</button>
 			<button id="clear-all">Remove All</button
 			><button id="mark-read">Mark All Read</button>
 		</nav>
@@ -41,6 +41,29 @@
 				</div>
 			</div>
 			<div class="book-card add-book-button"></div>
+		</div>
+		<div class="modal-wrapper">
+			<div class="add-book-window">
+				<p>Add new book</p>
+				<li>
+					<label for="title">Title</label>
+					<input type="text" name="title" id="title" />
+				</li>
+				<li>
+					<label for="author">Author</label>
+					<input type="text" name="author" id="author" />
+				</li>
+				<li>
+					<label for="pages">Pages</label>
+					<input type="tel" name="pages" id="pages" />
+				</li>
+				<li>
+					<input type="checkbox" name="read" id="read" />
+					<label for="read">read</label>
+				</li>
+
+				<button class="modal-add-book-button">Add book</button>
+			</div>
 		</div>
 	</body>
 </html>
