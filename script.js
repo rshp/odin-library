@@ -73,36 +73,6 @@ function markAllRead(targetHTML) {
 	}
 }
 
-addBookToLibrary(new Book('Animal Farm (1945)', 'George Orwell', 112, true));
-addBookToLibrary(
-	new Book(
-		'The Hound of the Baskervilles',
-		'Sir Arthur Conan Doyle',
-		122,
-		false
-	)
-);
-addBookToLibrary(
-	new Book('The Stranger', 'Albert Camus, tr. Matthew Ward', 123, true)
-);
-addBookToLibrary(new Book('The Hobbit', 'J.R.R. Tolkien', 295, false));
-addBookToLibrary(
-	new Book(
-		'Some veery long book title. It keeps on going and going and going and going and going and going and going and going and going and here it ends',
-		'Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y Picasso',
-		1,
-		false
-	)
-);
-addBookToLibrary(new Book('A Single Man', 'Christopher Isherwood', 152, false));
-addBookToLibrary(new Book('Ice', 'Anna Kavan', 158, false));
-addBookToLibrary(
-	new Book('Bonjour Tristesse', 'Françoise Sagan, tr. Irene Ash', 160, true)
-);
-addBookToLibrary(
-	new Book('The Great Gatsby', 'F. Scott Fitzgerald', 189, false)
-);
-
 const markAllReadButton = document.querySelector('#mark-read');
 markAllReadButton.addEventListener('click', () => {
 	markAllRead(libraryContainer);
@@ -137,5 +107,42 @@ function closeAddBookWindow(e) {
 		let bookRead = modalWrapper.querySelector('#read').checked;
 		addBookToLibrary(new Book(bookTitle, bookAuthor, bookPages, bookRead));
 		modalWrapper.style.display = 'none';
+		[
+			modalWrapper.querySelector('#title').value,
+			modalWrapper.querySelector('#author').value,
+			modalWrapper.querySelector('#pages').value,
+			modalWrapper.querySelector('#read').checked,
+		] = Array(4).fill('');
 	}
 }
+
+//Add some existing books to collection
+addBookToLibrary(new Book('Animal Farm (1945)', 'George Orwell', 112, true));
+addBookToLibrary(
+	new Book(
+		'The Hound of the Baskervilles',
+		'Sir Arthur Conan Doyle',
+		122,
+		false
+	)
+);
+addBookToLibrary(
+	new Book('The Stranger', 'Albert Camus, tr. Matthew Ward', 123, true)
+);
+addBookToLibrary(new Book('The Hobbit', 'J.R.R. Tolkien', 295, false));
+addBookToLibrary(
+	new Book(
+		'Some veery long book title. It keeps on going and going and going and going and going and going and going and going and going and here it ends',
+		'Pablo Diego José Francisco de Paula Juan Nepomuceno María de los Remedios Cipriano de la Santísima Trinidad Ruiz y Picasso',
+		1,
+		false
+	)
+);
+addBookToLibrary(new Book('A Single Man', 'Christopher Isherwood', 152, false));
+addBookToLibrary(new Book('Ice', 'Anna Kavan', 158, false));
+addBookToLibrary(
+	new Book('Bonjour Tristesse', 'Françoise Sagan, tr. Irene Ash', 160, true)
+);
+addBookToLibrary(
+	new Book('The Great Gatsby', 'F. Scott Fitzgerald', 189, false)
+);
