@@ -56,6 +56,7 @@ button:hover {
 	text-align: center;
 	display: flex;
 	flex-direction: column;
+	min-height: 200px;
 }
 
 .separator {
@@ -100,4 +101,8 @@ button:hover {
 
 .book-card.blueprint-card {
 	display: none;
+}
+
+.book-card .book-read {
+	background-color: greenyellow;
 }
