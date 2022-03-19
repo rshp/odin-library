@@ -47,6 +47,7 @@ button:hover {
 	gap: 2rem;
 	width: 80%;
 	align-self: center;
+	margin-bottom: 30px;
 }
 
 .book-card {
@@ -91,12 +92,31 @@ button:hover {
 	background-color: orange;
 }
 
+.card-controls div:hover {
+	transform: scale(1.1);
+	box-shadow: 0px 5px 10px rgb(139, 139, 139);
+	cursor: pointer;
+}
+
 .book-card.add-book-button {
 	font-size: 200px;
-	background-color: rgb(255, 208, 121);
+	background-color: orange;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+.add-book-button:hover {
+	cursor: pointer;
+	position: relative;
+	box-shadow: 0px 5px 20px rgb(139, 139, 139);
+	transform: scale(0.99);
+}
+
+.add-book-button::after {
+	content: '\002B';
+	position: relative;
+	top: -1rem;
 }
 
 .book-card.blueprint-card {
