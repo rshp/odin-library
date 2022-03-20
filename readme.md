@@ -1,6 +1,6 @@
 # This is TheOdinProject Library task.
 
-In that case, in addition to the existing `Book` class (from previous exersizes), singelton `Library` class was defined, containing:
+In that case, in addition to the existing `Book` class (from previous exersizes), `Library` class was defined, containing:
 
 -   An array of books
 -   Book addition and removal operations
