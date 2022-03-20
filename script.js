@@ -1,22 +1,21 @@
-let myLibrary = [];
-const libraryContainer = document.querySelector('.library');
-
 class library {
 	constructor(libraryContainer) {
 		this.books = [];
 		this.libraryContainer = libraryContainer;
-		this.createAddBookButton();
+		this.#createAddBookButton();
 	}
 	addBook(book) {
-		if (!this.isInLibrary(book)) this.books.push(book);
+		if (!this.#isInLibrary(book)) this.books.push(book);
+		const bookCard = this.#createBookCard(book);
+		this.#attachBookCard(bookCard);
 	}
-	createAddBookButton() {
+	#createAddBookButton() {
 		const button = document.createElement('div');
 		button.classList.add('book-card', 'add-book-button');
 		this.libraryContainer.appendChild(button);
 	}
 
-	isInLibrary(book) {
+	#isInLibrary(book) {
 		return this.books.some((element) => element.title == book.title);
 	}
 	removeBook(book) {
@@ -24,13 +23,33 @@ class library {
 			(element) => element.title != book.title
 		);
 	}
-	selectBook(book) {
+
+	removeAll() {
+		this.libraryContainer
+			.querySelectorAll('.card-delete')
+			.forEach((element) => {
+				element.click();
+			});
+	}
+
+	markAllRead() {
+		this.books.forEach((book) => {
+			if (!book.read) book.toggleRead();
+		});
+		this.libraryContainer
+			.querySelectorAll('.card-mark-read')
+			.forEach((element) => {
+				element.classList.add('book-read');
+			});
+	}
+
+	#selectBook(book) {
 		return this.books.find((element) => element.title == book.title);
 	}
 	toggleRead(book) {
-		this.selectBook(book).toggleRead();
+		this.#selectBook(book).toggleRead();
 	}
-	createBookCard(book) {
+	#createBookCard(book) {
 		const bookCard = document.createElement('div');
 		bookCard.classList.add('book-card');
 		bookCard.innerHTML = `
@@ -60,9 +79,21 @@ class library {
 			bookCard
 				.querySelector('.card-mark-read')
 				.classList.add('book-read');
+		bookCard
+			.querySelector('.card-mark-read')
+			.addEventListener('click', () => {
+				this.toggleRead(book);
+				bookCard
+					.querySelector('.card-mark-read')
+					.classList.toggle('book-read');
+			});
+		bookCard.querySelector('.card-delete').addEventListener('click', () => {
+			this.removeBook(book);
+			bookCard.remove();
+		});
 		return bookCard;
 	}
-	attachBookCard(bookCard) {
+	#attachBookCard(bookCard) {
 		this.libraryContainer.insertBefore(
 			bookCard,
 			this.libraryContainer.lastElementChild
@@ -81,58 +112,17 @@ Book.prototype.toggleRead = function () {
 	this.read = !this.read;
 };
 
-function myLibrary.addBook(book) {
-	appendBookCard(libraryContainer, book);
-}
-
-function removeBookCard(bookCard) {
-	bookCard.remove();
-}
-
-function toggleBookRead(bookCard, book) {
-	book.toggleRead();
-	bookCard.querySelector('.card-mark-read').classList.toggle('book-read');
-}
-
-function removeAllCards(targetHTML) {
-	let removeCollection = [];
-	for (const element of targetHTML.children) {
-		let isBluePrint = Array.from(element.classList).includes(
-			'blueprint-card'
-		);
-		let isAddBookButton = Array.from(element.classList).includes(
-			'add-book-button'
-		);
-		if (!(isBluePrint || isAddBookButton)) removeCollection.push(element);
-	}
-	removeCollection.forEach((element) => {
-		element.remove();
-	});
-}
-
-function markAllRead(targetHTML) {
-	for (const element of targetHTML.children) {
-		let isBluePrint = Array.from(element.classList).includes(
-			'blueprint-card'
-		);
-		let isAddBookButton = Array.from(element.classList).includes(
-			'add-book-button'
-		);
-		if (!(isBluePrint || isAddBookButton)) {
-			element.querySelector('.card-mark-read').classList.add('book-read');
-		}
-		//status change on object itself is missing
-	}
-}
+const libContainer = document.querySelector('.library');
+myLibrary = new library(libContainer);
 
 const markAllReadButton = document.querySelector('#mark-read');
 markAllReadButton.addEventListener('click', () => {
-	markAllRead(libraryContainer);
+	myLibrary.markAllRead();
 });
 
 const removeAllButton = document.querySelector('#clear-all');
 removeAllButton.addEventListener('click', () => {
-	removeAllCards(libraryContainer);
+	myLibrary.removeAll();
 });
 
 let modalWrapper = document.querySelector('.modal-wrapper');
@@ -169,18 +159,6 @@ function closeAddBookWindow(e) {
 }
 
 //Add some existing books to collection
-const libContainer = document.querySelector('.library');
-myLibrary = new library(libContainer);
-myLibrary.addBook(new Book('Animal Farm (1945)', 'George Orwell', 112, true));
-myLibrary.addBook(new Book('Eddd', 'Ezcf', 112, false));
-myLibrary.addBook(new Book('Vcz', 'Ozk', 112, true));
-myLibrary.addBook(new Book('Poeir', 'Mncb', 112, false));
-myLibrary.addBook(new Book('Rqobb', 'Lorem', 112, true));
-myLibrary.addBook(new Book('dbn/ass', 'xxWee', 112, true));
-myLibrary.removeBook(new Book('Rqobb', 'Lorem', 112, true));
-myLibrary.addBook(new Book('dbn/ass', 'xxWee', 112, true));
-let card = myLibrary.createBookCard(new Book('dbn/ass', 'xxWee', 112, true));
-myLibrary.attachBookCard(card);
 myLibrary.addBook(new Book('Animal Farm (1945)', 'George Orwell', 112, true));
 myLibrary.addBook(
 	new Book(
@@ -202,7 +180,9 @@ myLibrary.addBook(
 		false
 	)
 );
-myLibrary.addBook(new Book('A Single Man', 'Christopher Isherwood', 152, false));
+myLibrary.addBook(
+	new Book('A Single Man', 'Christopher Isherwood', 152, false)
+);
 myLibrary.addBook(new Book('Ice', 'Anna Kavan', 158, false));
 myLibrary.addBook(
 	new Book('Bonjour Tristesse', 'Françoise Sagan, tr. Irene Ash', 160, true)
@@ -210,4 +190,3 @@ myLibrary.addBook(
 myLibrary.addBook(
 	new Book('The Great Gatsby', 'F. Scott Fitzgerald', 189, false)
 );
-//-----------------------------------------------------------------
