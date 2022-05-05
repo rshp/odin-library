@@ -159,6 +159,42 @@ function closeAddBookWindow(e) {
 		] = Array(4).fill('');
 	}
 }
+// Add basic form validation for book addition
+const titleInput = document.getElementById('title');
+const authorInput = document.getElementById('author');
+const pagesInput = document.getElementById('pages');
+const modalButton = document.querySelector('.modal-add-book-button');
+titleInput.required = true;
+authorInput.required = true;
+pagesInput.required = true;
+pagesInput.pattern = '^(1|[1-9][0-9]{0,3})$';
+titleInput.addEventListener('focusout', (e) => {
+	if (titleInput.validity.valueMissing) {
+		titleInput.setCustomValidity('Title must be entered');
+		titleInput.reportValidity();
+	} else titleInput.setCustomValidity('');
+});
+
+authorInput.addEventListener('focusout', (e) => {
+	if (authorInput.validity.valueMissing) {
+		authorInput.setCustomValidity('Author must be entered');
+		authorInput.reportValidity();
+	} else authorInput.setCustomValidity('');
+});
+
+pagesInput.addEventListener('focusout', (e) => {
+	console.log(pagesInput.validity);
+	const requiredMessage = 'Pages must be entered.';
+	const patternMessage =
+		'Pages must be in rane of 1-9999 without leading zeroes.';
+	let validityMessage = '';
+	if (pagesInput.validity.valueMissing)
+		validityMessage = `${validityMessage} ${requiredMessage}`;
+	if (pagesInput.validity.patternMismatch)
+		validityMessage = `${validityMessage} ${patternMessage}`;
+	pagesInput.setCustomValidity(validityMessage);
+	pagesInput.reportValidity();
+});
 
 //Add some existing books to collection
 myLibrary.addBook(new Book('Animal Farm (1945)', 'George Orwell', 112, true));

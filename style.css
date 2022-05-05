@@ -186,6 +186,9 @@ button:hover {
 	flex: 1;
 }
 
+.add-book-window input:invalid {
+	background-color: lightpink;
+}
 .add-book-window li #read {
 	flex: 1;
 	max-width: 2rem;
